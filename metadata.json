@@ -1,0 +1,7 @@
+{
+  "name": "LingoFlash AI",
+  "description": "An intelligent English-Vietnamese dictionary and flashcard study tool powered by Gemini AI.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}
