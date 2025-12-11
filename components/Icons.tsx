@@ -75,3 +75,27 @@ export const GridIcon = ({ className }: { className?: string }) => (
 export const ZapIcon = ({ className }: { className?: string }) => (
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
 );
+
+export const UndoIcon = ({ className }: { className?: string }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5v0a5.5 5.5 0 0 1-5.5 5.5H11"/></svg>
+);
+
+export const RotateIcon = ({ className }: { className?: string }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 16h5v5"/></svg>
+);
+
+export const SwapIcon = ({ className }: { className?: string }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="m3 17 4 4 4-4"/><path d="M7 21V4"/><path d="m21 7-4-4-4 4"/><path d="M17 3v17"/></svg>
+);
+
+export const PuzzleIcon = ({ className }: { className?: string }) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M19.439 15.424a1 1 0 0 0-2.076.298c.08.543.055.985-.045 1.258-.22.6-.967.854-1.818 1.162-.806.29-1.5.545-1.5 1.358 0 .584.225 1.096.598 1.472.378.381.897.628 1.402.628a3.5 3.5 0 0 0 3.5-3.5c0-1.076-.326-1.957-.961-2.678Z"/><path d="M10 2.5a3.5 3.5 0 0 0-3.5 3.5c0 1.076.326 1.957.961 2.678a1 1 0 0 0 2.076-.298c-.08-.543-.055-.985.045-1.258.22-.6.967-.854 1.818-1.162.806-.29 1.5-.545 1.5-1.358 0-.584-.225-1.096-.598-1.472-.378-.381-.897-.628-1.402-.628Z"/><path d="M8.576 4.561a1 1 0 0 0 .298 2.076c.543-.08.985-.055 1.258.045.6.22.854.967 1.162 1.818.29.806.545 1.5 1.358 1.5.584 0 1.096-.225 1.472-.598.381-.378.628-.897.628-1.402a3.5 3.5 0 0 0-3.5-3.5c-1.076 0-1.957.326-2.678.961Z"/><path d="M15.5 14a3.5 3.5 0 0 0 3.5-3.5c0-1.076-.326-1.957-.961-2.678a1 1 0 0 0-2.076.298c.08.543.055.985-.045 1.258-.22.6-.967.854-1.818 1.162-.806.29-1.5.545-1.5 1.358 0 .584.225 1.096.598 1.472.378.381.897.628 1.402.628Z"/><rect width="18" height="18" x="3" y="3" rx="2"/></svg>
+);
+
+export const CheckCircleIcon = ({ className }: { className?: string }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+);
+
+export const XCircleIcon = ({ className }: { className?: string }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
+);

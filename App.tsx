@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { AppMode, WordData, Example } from './types';
-import { lookupWord } from './services/geminiService';
+import { lookupWord, translateVietnameseToEnglish } from './services/geminiService';
 import WordDisplay from './components/WordDisplay';
 import FlashcardStudy from './components/FlashcardStudy';
 import QuickLookupModal from './components/QuickLookupModal';
-import { SearchIcon, LayersIcon, TrashIcon, BookOpenIcon, SpeakerIcon, SunIcon, MoonIcon, DownloadIcon, ListIcon, GridIcon, XIcon, BrainIcon, TrendingUpIcon, CalendarIcon, ZapIcon } from './components/Icons';
+import { SearchIcon, LayersIcon, TrashIcon, BookOpenIcon, SpeakerIcon, SunIcon, MoonIcon, DownloadIcon, ListIcon, GridIcon, XIcon, BrainIcon, TrendingUpIcon, CalendarIcon, ZapIcon, SwapIcon } from './components/Icons';
 
 // Constants
 const STORAGE_KEY = 'lingoflash_cards';
@@ -21,6 +21,7 @@ const App: React.FC = () => {
   const [savedCards, setSavedCards] = useState<WordData[]>([]);
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+  const [translationDirection, setTranslationDirection] = useState<'en-vi' | 'vi-en'>('en-vi');
   
   // SRS State
   const [studySessionCards, setStudySessionCards] = useState<WordData[]>([]);
@@ -54,6 +55,14 @@ const App: React.FC = () => {
 
   const toggleTheme = useCallback(() => {
     setTheme(prev => prev === 'light' ? 'dark' : 'light');
+  }, []);
+
+  const toggleTranslationDirection = useCallback(() => {
+    setTranslationDirection(prev => (prev === 'en-vi' ? 'vi-en' : 'en-vi'));
+    setSearchQuery('');
+    setSearchResult(null);
+    setError(null);
+    searchInputRef.current?.focus();
   }, []);
 
   // Handle Word Click (for recursive lookups)
@@ -174,7 +183,10 @@ const App: React.FC = () => {
     setSearchResult(null);
 
     try {
-      const result = await lookupWord(searchQuery.trim());
+      const result = translationDirection === 'en-vi'
+          ? await lookupWord(searchQuery.trim())
+          : await translateVietnameseToEnglish(searchQuery.trim());
+
       const fullData: WordData = {
         ...result,
         id: crypto.randomUUID(),
@@ -360,7 +372,7 @@ const App: React.FC = () => {
               <p className="text-slate-500 dark:text-slate-400 text-lg">Powered by Gemini AI for fast, accurate translations.</p>
             </div>
 
-            <form onSubmit={handleSearch} className="w-full relative mb-12 group">
+            <form onSubmit={handleSearch} className="w-full relative mb-6 group">
               <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
                 <SearchIcon className="w-6 h-6 text-slate-400 dark:text-slate-500 group-focus-within:text-indigo-500 dark:group-focus-within:text-indigo-400 transition-colors" />
               </div>
@@ -370,7 +382,11 @@ const App: React.FC = () => {
                 autoFocus
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Enter an English word... (Press / to focus)"
+                placeholder={
+                  translationDirection === 'en-vi'
+                    ? "Enter an English word... (Press / to focus)"
+                    : "Nhập từ hoặc câu tiếng Việt..."
+                }
                 className="w-full py-5 pl-14 pr-32 bg-white dark:bg-slate-800 rounded-2xl shadow-xl shadow-indigo-100/50 dark:shadow-none border-2 border-transparent focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 dark:focus:ring-indigo-500/20 outline-none text-xl text-slate-800 dark:text-white placeholder:text-slate-300 dark:placeholder:text-slate-600 transition-all"
               />
               {searchQuery && (
@@ -394,6 +410,28 @@ const App: React.FC = () => {
                 {isLoading ? 'Thinking...' : 'Lookup'}
               </button>
             </form>
+
+            <div className="flex justify-center items-center gap-2 mb-10">
+                <button 
+                    onClick={toggleTranslationDirection}
+                    className={`px-3 py-1 rounded-full transition-colors text-sm ${translationDirection === 'en-vi' ? 'font-bold text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-slate-700' : 'text-slate-500 dark:text-slate-400'}`}
+                >
+                    English → Vietnamese
+                </button>
+                <button 
+                    onClick={toggleTranslationDirection}
+                    className="p-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
+                    title="Swap Languages"
+                >
+                    <SwapIcon className="w-4 h-4 text-slate-500 dark:text-slate-400" />
+                </button>
+                <button 
+                    onClick={toggleTranslationDirection}
+                    className={`px-3 py-1 rounded-full transition-colors text-sm ${translationDirection === 'vi-en' ? 'font-bold text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-slate-700' : 'text-slate-500 dark:text-slate-400'}`}
+                >
+                    Vietnamese → English
+                </button>
+            </div>
 
             {error && (
               <div className="p-4 bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 rounded-xl border border-red-100 dark:border-red-800/50 mb-8 animate-pulse">
@@ -619,6 +657,7 @@ const App: React.FC = () => {
         {mode === AppMode.STUDY && (
             <FlashcardStudy 
                 cards={studySessionCards} 
+                allCards={savedCards} // Pass all cards for quiz distractors
                 onExit={() => setMode(AppMode.FLASHCARDS)} 
                 reviewMode={isReviewSession}
                 onRate={handleSRSRating}

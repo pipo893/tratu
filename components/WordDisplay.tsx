@@ -154,6 +154,13 @@ const WordDisplay: React.FC<WordDisplayProps> = ({ data, onAdd, isSaved = false,
       <div className="flex items-start justify-between mb-6">
         <div>
           <h2 className="text-4xl font-bold text-slate-800 dark:text-white mb-2">{data.word}</h2>
+          
+          {data.mnemonic && data.mnemonic.toLowerCase() !== data.word.toLowerCase() && (
+            <div className="inline-block px-2 py-1 mb-2 rounded-md bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-300 font-mono text-sm tracking-widest border border-indigo-100 dark:border-indigo-800">
+                {data.mnemonic}
+            </div>
+          )}
+
           <div className="flex flex-wrap items-center gap-3 text-slate-500 dark:text-slate-400">
             <span className="font-mono text-lg mr-2">{data.phonetic}</span>
             <div className="flex gap-2">
@@ -246,6 +253,45 @@ const WordDisplay: React.FC<WordDisplayProps> = ({ data, onAdd, isSaved = false,
             </button>
         )}
       </div>
+
+      {/* Synonyms & Antonyms */}
+      {(data.synonyms && data.synonyms.length > 0 || data.antonyms && data.antonyms.length > 0) && (
+          <div className="mb-6 p-4 bg-slate-50 dark:bg-slate-700/30 rounded-xl border border-slate-100 dark:border-slate-700/50">
+              {data.synonyms && data.synonyms.length > 0 && (
+                  <div className="flex flex-wrap gap-2 items-baseline mb-2 last:mb-0">
+                      <span className="text-xs font-bold text-slate-400 uppercase tracking-wider min-w-[80px]">Synonyms</span>
+                      <div className="flex flex-wrap gap-2">
+                          {data.synonyms.map((syn, idx) => (
+                              <button 
+                                key={idx} 
+                                onClick={() => onWordClick?.(syn)}
+                                className="text-slate-700 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 hover:underline transition-colors"
+                              >
+                                  {syn}
+                              </button>
+                          ))}
+                      </div>
+                  </div>
+              )}
+              
+              {data.antonyms && data.antonyms.length > 0 && (
+                  <div className="flex flex-wrap gap-2 items-baseline">
+                      <span className="text-xs font-bold text-slate-400 uppercase tracking-wider min-w-[80px]">Antonyms</span>
+                       <div className="flex flex-wrap gap-2">
+                          {data.antonyms.map((ant, idx) => (
+                              <button 
+                                key={idx} 
+                                onClick={() => onWordClick?.(ant)}
+                                className="text-slate-700 dark:text-slate-300 hover:text-red-600 dark:hover:text-red-400 hover:underline transition-colors"
+                              >
+                                  {ant}
+                              </button>
+                          ))}
+                      </div>
+                  </div>
+              )}
+          </div>
+      )}
 
       <div className="space-y-6">
         <div>
