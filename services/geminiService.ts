@@ -7,7 +7,7 @@ if (!apiKey) {
   console.error("API Key is missing!");
 }
 
-const ai = new GoogleGenAI({ apiKey: apiKey || '' });
+const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY || '' });
 
 // Persistent Cache for En-Vi
 const CACHE_KEY = 'lingoflash_word_cache_v2';
